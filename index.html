@@ -1,12 +1,3 @@
-<?php
-    session_start();
-
-    // If user is not logged in, redirect to login page
-    if (!isset($_SESSION["user"])) {
-        header("Location: login.php");
-        exit();
-    }
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,16 +21,7 @@
   <div class="container">
     <h1>Water & Wonders Photobooth</h1>
     <div style="position: absolute; top: 10px; right: 10px;">
-        <a href="logout.php" style="
-            background-color: #d9534f;
-            color: white;
-            padding: 8px 14px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-        ">
             <i class="bi bi-box-arrow-right"></i> Logout
-        </a>
     </div>
         <div class="controls">
             <div class="control-item">
@@ -364,7 +346,7 @@
 
             await tx.done;
 
-            window.location.href = "strip.php";
+            window.location.href = "strip.html";
         };
 
 
