@@ -15,10 +15,10 @@
 
     <!-- IndexDB CDN-->
     <script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
-    
+
     <script>
     if (localStorage.getItem("loggedIn") !== "true") {
-        window.location.href = "login.html"; // redirect if not logged in
+        window.location.href = "login.html";
     }
     </script>
 </head>
@@ -369,17 +369,17 @@
             showCancelButton: true,
             confirmButtonColor: "#d33",
             cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, log me out"
+            confirmButtonText: "Log out"
             }).then((result) => {
             if (result.isConfirmed) {
-                localStorage.removeItem("loggedIn"); // clear login flag
+                localStorage.removeItem("loggedIn");
                 Swal.fire({
                 icon: "success",
                 title: "Logged out!",
                 showConfirmButton: false,
                 timer: 1200
                 }).then(() => {
-                window.location.href = "login.html"; // redirect to login
+                window.location.href = "login.html";
                 });
             }
             });

@@ -116,7 +116,7 @@
       toggle.onclick = function () {
 
         e.preventDefault();
-        
+
         if (password.type == "password") {
           password.type = "text";
           eyeicon.classList.remove("bi-eye");
@@ -132,7 +132,7 @@
     <script>
     // Precomputed SHA-256 hash of "1234"
     const correctUser = "jpcs";
-    const correctHash = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
+    const correctHash = "61f4b0ae02386411bc954028e4544058da7f4acd67fc078cdd4a57435c6d6376";
 
     async function sha256(message) {
         const msgBuffer = new TextEncoder().encode(message);
