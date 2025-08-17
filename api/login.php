@@ -62,7 +62,7 @@
       }
 
       .left-panel {
-        background-image: url("assets/background.png");
+        background-image: url("/assets/background.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
