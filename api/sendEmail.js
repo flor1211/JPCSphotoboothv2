@@ -5,12 +5,13 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: "Method not allowed" });
     }
 
+    console.log("Incoming body:", req.body);
+
     const { name, email, image } = req.body;
 
     if (!name || !email || !image) {
         return res.status(400).json({ message: "Missing required fields" });
     }
-
 
 
     try {

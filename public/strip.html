@@ -395,8 +395,7 @@
                     if (response.ok) {
                         Swal.fire("Success", "Your photobooth collage has been sent!", "success");
                     } else {
-                        console.error("Email error:", result);
-                        Swal.fire("Error", result.message || "Failed to send email.", "error");
+                        Swal.fire("Error", "Failed to send email.", "error");
                     }
                 } catch (err) {
                     console.error("Fetch failed:", err);
