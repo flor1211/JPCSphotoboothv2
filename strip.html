@@ -248,6 +248,7 @@
             await overlay.decode();
             ctx.drawImage(overlay, 0, 0, canvasWidth, canvasHeight);
 
+
             // Export
             const { value: filename } = await Swal.fire({
                 title: "Save as",
@@ -270,7 +271,7 @@
                 link.click();
 
                 Swal.fire("Success", "Your photobooth strip has been saved.", "success");
-                }
+            }
 
 
         });
@@ -299,35 +300,109 @@
                 return;
             }
 
-            const { value: email } = await Swal.fire({
-                title: "Send to Email",
-                input: "email",
-                inputLabel: "Email address",
-                inputPlaceholder: "name@example.com",
+            console.log(selectedPhotos.length);
+            if (selectedPhotos.length != 3) {
+                Swal.fire("Error", "You need to select 3 shots.", "error");
+                return;
+            }
+
+            const canvasWidth = 707;
+            const canvasHeight = 2000;
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            // Background
+            const bg = new Image();
+                bg.src = "assets/background.png";
+                await bg.decode();
+                ctx.drawImage(bg, 0, 0, canvasWidth, canvasHeight);
+
+                async function drawSlot(imgSrc, x, y, w, h) {
+                    return new Promise((resolve, reject) => {
+                        if (!imgSrc) { resolve(); return; }
+                        const img = new Image();
+                        img.src = base64ToBlobUrl(imgSrc);
+                        img.onload = () => {
+                            ctx.fillStyle = "white";
+                            ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
+                            ctx.drawImage(img, x, y, w, h);
+                            resolve();
+                        };
+                        img.onerror = reject;
+                    });
+            }
+
+            const slotX = (canvasWidth - 625) / 2; 
+            await drawSlot(selectedPhotos[0], slotX, 70, 625, 485);
+            await drawSlot(selectedPhotos[1], slotX, 585, 625, 485);
+            await drawSlot(selectedPhotos[2], slotX, 1100, 625, 485);
+
+            // Overlay
+            const overlay = new Image();
+            overlay.src = "assets/design.png";
+            await overlay.decode();
+            ctx.drawImage(overlay, 0, 0, canvasWidth, canvasHeight);
+
+            const dataUrl = canvas.toDataURL("image/png");
+
+            // Export
+            const { value: formValues } = await Swal.fire({
+                title: "Send Photobooth Shot",
+                html: `
+                    <input id="swal-name" class="swal2-input" placeholder="Full Name">
+                    <input id="swal-email" type="email" class="swal2-input" placeholder="Email Address">
+                `,
+                focusConfirm: false,
                 showCancelButton: true,
                 confirmButtonText: "Send",
-                cancelButtonText: "Cancel",
-                inputValidator: (value) => {
-                    if (!value) {
-                        return "Please enter a valid email address!";
-                    }
+                preConfirm: () => {
+                    const name = document.getElementById("swal-name").value;
+                    const email = document.getElementById("swal-email").value;
 
                     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailPattern.test(value)) {
-                        return "Please enter a valid email address!";
+                    if (!name || !email || !emailPattern.test(email)) {
+                        Swal.showValidationMessage("Please enter a valid name and email!");
                     }
+                    return { name, email };
                 }
             });
 
-            if (email) {
-                Swal.fire({
-                    title: 'Success',
-                    text: 'Your photostrip will be sent to ' + email,
-                    icon: 'success',
-                    timer: 1000,
-                    showConfirmButton: false,
-                });
+            if (formValues) {
+                try {
+                    // Show loading while sending
+                    Swal.fire({
+                        title: "Sending...",
+                        text: "Please wait while we send your photobooth collage.",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
 
+                    const response = await fetch("/api/sendEmail", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            name: formValues.name,
+                            email: formValues.email,
+                            image: dataUrl
+                        }),
+                    });
+
+                    const result = await response.json(); 
+
+                    if (response.ok) {
+                        Swal.fire("Success", "Your photobooth collage has been sent!", "success");
+                    } else {
+                        console.error("Email error:", result);
+                        Swal.fire("Error", result.message || "Failed to send email.", "error");
+                    }
+                } catch (err) {
+                    console.error("Fetch failed:", err);
+                    Swal.fire("Error", "Something went wrong. Please try again.", "error");
+                }
             }
         });
 
