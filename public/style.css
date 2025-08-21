@@ -58,6 +58,10 @@ video, canvas {
   object-position: center;
 }
 
+video, canvas {
+  transform: scaleX(-1);
+}
+
 .overlay {
   position: absolute;
   top: 0;
