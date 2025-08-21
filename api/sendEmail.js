@@ -5,18 +5,18 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const { name, email, image } = req.body;
-
     if (!name || !email || !image) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
+    const { name, email, image } = req.body;
+
     try {
 
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT,
+            secure: process.env.SMTP_PORT === "465",
             auth: {
                 user: process.env.SMTP_USER, 
                 pass: process.env.SMTP_PASS 
@@ -38,6 +38,7 @@ export default async function handler(req, res) {
             ]
         });
 
+        await transporter.sendMail(mailOptions);
         res.status(200).json({ message: "Email sent successfully" });
     } catch (err) {
         console.error(err);
