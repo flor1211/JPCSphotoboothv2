@@ -5,14 +5,11 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: "Method not allowed" });
     }
 
-    console.log("Incoming body:", req.body);
-
     const { name, email, image } = req.body;
 
     if (!name || !email || !image) {
         return res.status(400).json({ message: "Missing required fields" });
     }
-
 
     try {
 
@@ -28,9 +25,9 @@ export default async function handler(req, res) {
 
         // Send email
         await transporter.sendMail({
-            from: "JPCS Photobooth",
+            from: `"JPCS Photobooth" <${process.env.SMTP_USER}>` ,
             to: email,
-            subject: "JPCS Photobooth - Safe Ka Dito!",
+            subject: "JPCS Photobooth - Orientation 2025!",
             text: `Hi ${name}, here is your photostrip! Thank you for using JPCS Photobooth.`,
             attachments: [
                 {

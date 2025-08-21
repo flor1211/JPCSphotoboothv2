@@ -371,7 +371,7 @@
 
             if (formValues) {
                 try {
-                    // Show loading while sending
+                    // Loading
                     Swal.fire({
                         title: "Sending...",
                         text: "Please wait while we send your photostrip!",
@@ -380,6 +380,8 @@
                             Swal.showLoading();
                         }
                     });
+
+                    console.log("Sending to ", formValues.email);
 
                     const response = await fetch("/api/sendEmail", {
                         method: "POST",
@@ -393,7 +395,8 @@
 
 
                     if (response.ok) {
-                        Swal.fire("Success", "Your photobooth collage has been sent!", "success");
+                        Swal.fire("Success", "Your photostrip has been sent!", "success");
+                        console.log("Photostrip sent!");
                     } else {
                         Swal.fire("Error", "Failed to send email.", "error");
                     }
