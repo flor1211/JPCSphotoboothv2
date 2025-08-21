@@ -28,12 +28,42 @@ export default async function handler(req, res) {
             from: `"JPCS Photobooth" <${process.env.SMTP_USER}>` ,
             to: email,
             subject: "JPCS Photobooth - Orientation 2025!",
-            text: `Hi ${name}, here is your photostrip! Thank you for using JPCS Photobooth.`,
+            // text: `Hi ${name}, here is your photostrip! Thank you for using JPCS Photobooth.`,
+            html: `<div style="font-family: Arial, sans-serif; line-height:1.6; background-color:#f4f4f4; padding:20px;">
+                    <div style="max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                        
+                        <h2 style="color:#333; margin-top:0;">Hi ${name},</h2>
+                        <p style="font-size:16px; color:#555;">
+                        Thank you for using <strong>JPCS Photobooth</strong>!📸 ><br>
+                        Here is your photostrip:
+                        </p>
+
+                        <div style="text-align:center; margin:20px 0;">
+                        <img src="cid:collage_cid" alt="Your photostrip" style="max-width:100%; border-radius:6px; border:1px solid #ddd;"/>
+                        </div>
+
+                        <p style="font-size:15px; color:#555;">
+                        We hope you enjoyed the experience!  
+                        Don’t forget to share the memories. 💙
+                        </p>
+
+                        <hr style="border:none; border-top:1px solid #eee; margin:20px 0;"/>
+
+                        <p style="font-size:13px; color:#888; text-align:center; margin-top:20px;">
+                        — JPCS Photobooth Team (flor & juls)
+                        <br/>Orientation 2025 ✨
+                        </p>
+                        
+
+                    </div>
+                    </div>
+                    `,
             attachments: [
                 {
                     filename: `"${name}.png"`,
                     content: image.split("base64,")[1],
-                    encoding: "base64"
+                    encoding: "base64",
+                    cid: "collage_cid"
                 }
             ]
         });
