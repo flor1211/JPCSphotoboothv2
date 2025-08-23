@@ -112,7 +112,14 @@
 
         // load photos from IndexDB
         async function loadPhotos() {
-            const db = await idb.openDB("photoboothDB", 1);
+            const db = await idb.openDB("photoboothDB", 1, {
+                upgrade(db) {
+                    if (!db.objectStoreNames.contains("photos")) {
+                        db.createObjectStore("photos");
+                    }
+                }
+            });
+
             const photos = [];
             for (let i = 0; i < 6; i++) {
                 const photo = await db.get("photos", `photo-${i}`);
@@ -409,16 +416,18 @@
 
     }
 
+
     // Initialize shots
     (async () => {
         const photos = await loadPhotos();
-        if (!photos.length) {
+
+        if (photos.length < 6) {
             window.location.href = "index.html";
             return;
         }
+
         initShots(photos);
     })();
-
     </script>
 
 
