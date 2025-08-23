@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,20 +14,16 @@
     <!-- Bootstrap Icons CDN-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-    <!-- IDB CDN -->
     <script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
-    <!-- <script src="https://unpkg.com/idb@7/build/iife/index-min.js"></script> -->
-
 
     <script>
-        document.write('<style>.container{display:none;}</style>');
+    if (localStorage.getItem("loggedIn") !== "true") {
+        window.location.href = "login.html"; // redirect if not logged in
+    }
     </script>
-    
-    <script src="auth.js"></script>
-
 </head>
 <body>
-  <div class="container" id="container">
+  <div class="container">
     <h1>Water & Wonders Photobooth</h1>
 
     <div class="final-row">
@@ -55,7 +53,7 @@
                 <div class="slot-preview"><span>2</span></div>
                 <div class="slot-preview"><span>3</span></div>
 
-                <!-- Overlay on top -->
+                <!-- overlay on top -->
                 <div class="overlay-preview"></div>
             </div>
         </div>
@@ -68,7 +66,7 @@
                 <div class="slot-final"><span>2</span></div>
                 <div class="slot-final"><span>3</span></div>
 
-                <!-- Overlay on top -->
+                <!-- overlay on top -->
                 <div class="overlay-final"></div>
             </div>
         </div>
@@ -78,7 +76,6 @@
             <button id="downloadBtn" class="downloadBtn" style="width: 100%;" disabled><i class="bi bi-file-earmark-arrow-down-fill"></i> Download Strip</button>
             <button id="sendBtn" style="width: 100%;" disabled><i class="bi bi-envelope-paper-fill"></i> Send to Email</button>
             <button id="restartBtn" style="width: 100%; background-color: rgb(255, 41, 41)" >Restart</button>
-            <!-- <button id="backBtn" style="width: 100%; background-color: gray;">Back</button> -->
         </div>
 
 
@@ -96,7 +93,6 @@
         const downloadBtn = document.getElementById("downloadBtn");
         const sendBtn = document.getElementById("sendBtn");
         const restartBtn = document.getElementById("restartBtn");
-        const backBtn = document.getElementById("backBtn");
 
         let selectedPhotos = [];
 
@@ -113,7 +109,6 @@
             const blob = new Blob([u8arr], { type: mime });
             return URL.createObjectURL(blob);
         }
-
 
         // load photos from IndexDB
         async function loadPhotos() {
@@ -280,17 +275,12 @@
 
 
         });
-        
-        // Back
-        // backBtn.addEventListener("click", function() {
-        //     window.location.href = "index.html";
-        // });
 
         // Restart
         restartBtn.addEventListener("click", async function() {
             Swal.fire({
                 title: "Restart",
-                text: "This will clear your photos and return you to the start.",
+                text: "This will clear your photos and go back from the start.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Confirm",
@@ -428,7 +418,6 @@
         }
         initShots(photos);
     })();
-
 
     </script>
 
