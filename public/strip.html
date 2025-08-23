@@ -76,6 +76,7 @@
             <button id="downloadBtn" class="downloadBtn" style="width: 100%;" disabled><i class="bi bi-file-earmark-arrow-down-fill"></i> Download Strip</button>
             <button id="sendBtn" style="width: 100%;" disabled><i class="bi bi-envelope-paper-fill"></i> Send to Email</button>
             <button id="restartBtn" style="width: 100%; background-color: rgb(255, 41, 41)" >Restart</button>
+            <button id="backBtn" style="width: 100%; background-color: gray; color: white;">⬅ Back</button>
         </div>
 
 
@@ -93,6 +94,7 @@
         const downloadBtn = document.getElementById("downloadBtn");
         const sendBtn = document.getElementById("sendBtn");
         const restartBtn = document.getElementById("restartBtn");
+        const backBtn = document.getElementById("backBtn");
 
         let selectedPhotos = [];
 
@@ -112,14 +114,7 @@
 
         // load photos from IndexDB
         async function loadPhotos() {
-            const db = await idb.openDB("photoboothDB", 1, {
-                upgrade(db) {
-                    if (!db.objectStoreNames.contains("photos")) {
-                        db.createObjectStore("photos");
-                    }
-                }
-            });
-
+            const db = await idb.openDB("photoboothDB", 1);
             const photos = [];
             for (let i = 0; i < 6; i++) {
                 const photo = await db.get("photos", `photo-${i}`);
@@ -282,12 +277,17 @@
 
 
         });
+        
+        // Back
+        backBtn.addEventListener("click", function() {
+            window.location.href = "index.html";
+        });
 
         // Restart
-        restartBtn.addEventListener("click", async function() {
+        restartBtn.addEventListener("click", function() {
             Swal.fire({
                 title: "Restart",
-                text: "This will clear your photos and go back from the start.",
+                text: "This will clear your photos and return you to the start.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Confirm",
@@ -416,18 +416,16 @@
 
     }
 
-
     // Initialize shots
     (async () => {
         const photos = await loadPhotos();
-
-        if (photos.length < 6) {
+        if (!photos.length) {
             window.location.href = "index.html";
             return;
         }
-
         initShots(photos);
     })();
+
     </script>
 
 
