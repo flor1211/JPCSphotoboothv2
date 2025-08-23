@@ -35,12 +35,8 @@ export default async function handler(req, res) {
                         <h2 style="color:#333; margin-top:0;">Hi ${name},</h2>
                         <p style="font-size:16px; color:#555;">
                         Thank you for using <strong>JPCS Photobooth</strong>!📸 <br>
-                         Here is your photostrip:
+                        The attached file is your photostrip.
                         </p>
-
-                        <div style="text-align:center; margin:20px 0;">
-                        <img src="cid:collage_cid" alt="Your photostrip" style="max-width:100%; border-radius:6px; border:1px solid #ddd;"/>
-                        </div>
 
                         <p style="font-size:15px; color:#555;">
                         We hope you enjoyed the experience!  
@@ -62,8 +58,7 @@ export default async function handler(req, res) {
                 {
                     filename: `"${name}.png"`,
                     content: image.split("base64,")[1],
-                    encoding: "base64",
-                    cid: "collage_cid"
+                    encoding: "base64"
                 }
             ]
         });
