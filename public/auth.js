@@ -17,6 +17,8 @@
       }).then(() => {
         window.location.href = "login.html";
       });
+    } else {
+        document.body.style.display = "block";
     }
   } catch (error) {
     console.error("Token verification error:", error);
