@@ -28,8 +28,9 @@
       text: "An error occurred. Please log in again.",
       timer: 2000,
       showConfirmButton: false
-    }).then(() => {
-      window.location.href = "login.html";
-    });
+    })
+    // .then(() => {
+    //      window.location.href = "login.html";
+    // });
   }
 })();
