@@ -227,56 +227,20 @@
                 await bg.decode();
                 ctx.drawImage(bg, 0, 0, canvasWidth, canvasHeight);
 
-                // async function drawSlot(imgSrc, x, y, w, h) {
-                //     return new Promise((resolve, reject) => {
-                //         if (!imgSrc) { resolve(); return; }
-                //         const img = new Image();
-                //         img.src = base64ToBlobUrl(imgSrc);
-                //         img.onload = () => {
-                //             ctx.fillStyle = "white";
-                //             ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
-                //             ctx.drawImage(img, x, y, w, h);
-                //             resolve();
-                //         };
-                //         img.onerror = reject;
-                //     });
-                // }
                 async function drawSlot(imgSrc, x, y, w, h) {
                     return new Promise((resolve, reject) => {
                         if (!imgSrc) { resolve(); return; }
                         const img = new Image();
                         img.src = base64ToBlobUrl(imgSrc);
                         img.onload = () => {
-                            const imgAspect = img.width / img.height;
-                            const boxAspect = w / h;
-
-                            let drawWidth, drawHeight, offsetX, offsetY;
-
-                            if (imgAspect > boxAspect) {
-                                // Wider → fit height, crop sides
-                                drawHeight = h;
-                                drawWidth = h * imgAspect;
-                                offsetX = x - (drawWidth - w) / 2;
-                                offsetY = y;
-                            } else {
-                                // Taller → fit width, crop top/bottom
-                                drawWidth = w;
-                                drawHeight = w / imgAspect;
-                                offsetX = x;
-                                offsetY = y - (drawHeight - h) / 2;
-                            }
-
-                            // White frame
                             ctx.fillStyle = "white";
                             ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
-
-                            // Draw photo inside frame
-                            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                            ctx.drawImage(img, x, y, w, h);
                             resolve();
                         };
                         img.onerror = reject;
                     });
-                }
+            }
 
             const slotX = (canvasWidth - 625) / 2; 
             await drawSlot(selectedPhotos[0], slotX, 70, 625, 485);
@@ -365,56 +329,19 @@
                 await bg.decode();
                 ctx.drawImage(bg, 0, 0, canvasWidth, canvasHeight);
 
-            //     async function drawSlot(imgSrc, x, y, w, h) {
-            //         return new Promise((resolve, reject) => {
-            //             if (!imgSrc) { resolve(); return; }
-            //             const img = new Image();
-            //             img.src = base64ToBlobUrl(imgSrc);
-            //             img.onload = () => {
-            //                 ctx.fillStyle = "white";
-            //                 ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
-            //                 ctx.drawImage(img, x, y, w, h);
-            //                 resolve();
-            //             };
-            //             img.onerror = reject;
-            //         });
-            // }
-
-            async function drawSlot(imgSrc, x, y, w, h) {
-                return new Promise((resolve, reject) => {
-                    if (!imgSrc) { resolve(); return; }
-                    const img = new Image();
-                    img.src = base64ToBlobUrl(imgSrc);
-                    img.onload = () => {
-                        const imgAspect = img.width / img.height;
-                        const boxAspect = w / h;
-
-                        let drawWidth, drawHeight, offsetX, offsetY;
-
-                        if (imgAspect > boxAspect) {
-                            // Wider → fit height, crop sides
-                            drawHeight = h;
-                            drawWidth = h * imgAspect;
-                            offsetX = x - (drawWidth - w) / 2;
-                            offsetY = y;
-                        } else {
-                            // Taller → fit width, crop top/bottom
-                            drawWidth = w;
-                            drawHeight = w / imgAspect;
-                            offsetX = x;
-                            offsetY = y - (drawHeight - h) / 2;
-                        }
-
-                        // White frame
-                        ctx.fillStyle = "white";
-                        ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
-
-                        // Draw photo inside frame
-                        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-                        resolve();
-                    };
-                    img.onerror = reject;
-                });
+                async function drawSlot(imgSrc, x, y, w, h) {
+                    return new Promise((resolve, reject) => {
+                        if (!imgSrc) { resolve(); return; }
+                        const img = new Image();
+                        img.src = base64ToBlobUrl(imgSrc);
+                        img.onload = () => {
+                            ctx.fillStyle = "white";
+                            ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
+                            ctx.drawImage(img, x, y, w, h);
+                            resolve();
+                        };
+                        img.onerror = reject;
+                    });
             }
 
             const slotX = (canvasWidth - 625) / 2; 
