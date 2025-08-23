@@ -76,7 +76,7 @@
             <button id="downloadBtn" class="downloadBtn" style="width: 100%;" disabled><i class="bi bi-file-earmark-arrow-down-fill"></i> Download Strip</button>
             <button id="sendBtn" style="width: 100%;" disabled><i class="bi bi-envelope-paper-fill"></i> Send to Email</button>
             <button id="restartBtn" style="width: 100%; background-color: rgb(255, 41, 41)" >Restart</button>
-            <button id="backBtn" style="width: 100%; background-color: gray; color: white;">⬅ Back</button>
+            <button id="backBtn" style="width: 100%; background-color: gray;">Back</button>
         </div>
 
 
@@ -284,7 +284,7 @@
         });
 
         // Restart
-        restartBtn.addEventListener("click", function() {
+        restartBtn.addEventListener("click", async function() {
             Swal.fire({
                 title: "Restart",
                 text: "This will clear your photos and return you to the start.",
