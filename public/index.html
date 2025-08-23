@@ -16,11 +16,8 @@
     <!-- IndexDB CDN-->
     <script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
 
-    <script>
-    if (localStorage.getItem("loggedIn") !== "true") {
-        window.location.href = "login.html";
-    }
-    </script>
+    <script src="auth.js"></script>
+
 </head>
 <body>
   <div class="container">
@@ -358,32 +355,8 @@
 
     </script>
 
-
     <!-- Log Out -->
-     <script>
-        document.getElementById("logoutBtn").addEventListener("click", () => {
-            Swal.fire({
-            title: "Are you sure?",
-            text: "You will be logged out.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Log out"
-            }).then((result) => {
-            if (result.isConfirmed) {
-                localStorage.removeItem("loggedIn");
-                Swal.fire({
-                icon: "success",
-                title: "Logged out!",
-                showConfirmButton: false,
-                timer: 1200
-                }).then(() => {
-                window.location.href = "login.html";
-                });
-            }
-            });
-        });
-        </script>
+    <script src="logout.js"></script>
+    
 </body>
 </html>

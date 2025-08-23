@@ -128,48 +128,52 @@
     </script>
 
     <script>
-
-    const correctUser = "JPCS";
-    const correctHash = "61f4b0ae02386411bc954028e4544058da7f4acd67fc078cdd4a57435c6d6376";
-
-    async function sha256(message) {
-        const msgBuffer = new TextEncoder().encode(message);
-        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const passwordHash = await sha256(password);
+        try {
+          const res = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+          });
 
-        if (username === correctUser && passwordHash === correctHash) {
-        localStorage.setItem("loggedIn", "true");
+          const data = await res.json();
 
-        Swal.fire({
-            icon: "success",
-            title: "Login Successful!",
-            text: "Welcome 🎉",
+          if (res.ok) {
+            localStorage.setItem("token", data.token);
+
+            Swal.fire({
+              icon: "success",
+              title: "Login Successful!",
+              text: "Welcome 🎉",
+              timer: 1500,
+              showConfirmButton: false
+            }).then(() => {
+              window.location.href = "index.html";
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: data.error || "Invalid username or password!"
+            });
+          }
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Something went wrong. Try again.",
             timer: 1500,
             showConfirmButton: false
-        }).then(() => {
-            window.location.href = "index.html";
-        });
-
-        } else {
-
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Invalid username or password!"
-        });
+          });
         }
-    });
+      });
     </script>
+
 
 
   </body>
