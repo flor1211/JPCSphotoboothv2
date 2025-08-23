@@ -1,6 +1,6 @@
 {
   "redirects": [
-    { "source": "/:path*", "destination": "/maintenance.html", "permanent": false }
+    { "source": "/((?!maintenance\\.html).*)", "destination": "/maintenance.html", "permanent": false }
   ]
 
 }
