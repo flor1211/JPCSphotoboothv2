@@ -18,7 +18,7 @@
         window.location.href = "login.html";
       });
     } else {
-        document.body.style.display = "block";
+        document.getElementById("container").style.display = "block";
     }
   } catch (error) {
     console.error("Token verification error:", error);
