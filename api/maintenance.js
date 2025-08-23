@@ -9,8 +9,9 @@ export default function handler(req, res) {
     const html = readFileSync(filePath, "utf-8");
 
     res.setHeader("Content-Type", "text/html");
-    return res.status(200).send(html);
+    return res.status(503).send(html);
   }
 
-  return res.status(404).end();
+  res.setHeader("x-middleware-rewrite", req.url);
+  return res.status(200).end();
 }
