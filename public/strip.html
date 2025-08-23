@@ -114,33 +114,10 @@
             return URL.createObjectURL(blob);
         }
 
-        async function initDB() {
-            try {
-                const db = await idb.openDB("photoboothDB", 1, {
-                upgrade(db) {
-                    if (!db.objectStoreNames.contains("photos")) {
-                    db.createObjectStore("photos", { keyPath: "id", autoIncrement: true });
-                    }
-                }
-                });
-                return db;
-            } catch (err) {
-                console.warn("DB open failed, resetting...", err);
-
-                await idb.deleteDB("photoboothDB");
-
-                const db = await idb.openDB("photoboothDB", 1, {
-                upgrade(db) {
-                    db.createObjectStore("photos", { keyPath: "id", autoIncrement: true });
-                }
-                });
-                return db;
-            }
-            }
 
         // load photos from IndexDB
         async function loadPhotos() {
-            const db = await initDB();
+            const db = await idb.openDB("photoboothDB", 1);
             const photos = [];
             for (let i = 0; i < 6; i++) {
                 const photo = await db.get("photos", `photo-${i}`);
@@ -320,7 +297,7 @@
                 cancelButtonText: "Cancel"
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const db = await initDB()
+                    const db = await idb.openDB("photoboothDB", 1);
                     await db.clear("photos");
                     window.location.href = "index.html";
                 }
