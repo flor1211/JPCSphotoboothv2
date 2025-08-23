@@ -326,30 +326,45 @@
             });
         };
 
+        async function initDB() {
+            try {
+                const db = await openDB("photoboothDB", 1, {
+                upgrade(db) {
+                    if (!db.objectStoreNames.contains("photos")) {
+                    db.createObjectStore("photos", { keyPath: "id", autoIncrement: true });
+                    }
+                }
+                });
+                return db;
+            } catch (err) {
+                console.warn("DB open failed, resetting...", err);
+
+                await deleteDB("photoboothDB");
+
+                const db = await openDB("photoboothDB", 1, {
+                upgrade(db) {
+                    db.createObjectStore("photos", { keyPath: "id", autoIncrement: true });
+                }
+                });
+                return db;
+            }
+            }
+
         // Next button
         nextBtn.onclick = async () => {
             if (photoIndex < 6) return;
 
-            const db = await idb.openDB("photoboothDB", 1, {
-                upgrade(db) {
-                    if (!db.objectStoreNames.contains("photos")) {
-                        db.createObjectStore("photos");
-                    }
-                }
-            });
+            const db = await initDB();
 
             // Clear old photos
-            const tx = db.transaction("photos", "readwrite");
-            tx.store.clear();
+            await db.clear("photos");
 
             // Save each photo
             slots.forEach((slot, i) => {
                 if (slot.dataset.base64) {
-                    tx.store.put(slot.dataset.base64, `photo-${i}`);
+                db.add("photos", { base64: slot.dataset.base64 });
                 }
             });
-
-            await tx.done;
 
             window.location.href = "strip.html";
         };
