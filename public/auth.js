@@ -14,7 +14,7 @@
             }
 
             try {
-                const res = await fetch("/api/verifyToken", {
+                const res = await fetch("/api/verify", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
