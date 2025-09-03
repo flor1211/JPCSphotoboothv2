@@ -1,8 +1,10 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api/redirect).*)",
-      "destination": "/api/redirect"
+      "source": "/((?!maintenance\\.html).*)",
+      "destination": "api/redirect",
+      "permanent": false
     }
   ]
 }
+
