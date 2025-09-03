@@ -106,8 +106,8 @@
             clickCount++;
 
             if (clickCount >= requiredClicks) {
-            downloadBtn.disabled = false; 
-            downloadBtn.style.opacity = "1";
+                downloadBtn.disabled = false; 
+                downloadBtn.style.opacity = "1";
             }
         });
 
@@ -172,7 +172,7 @@
 
             if (selectedPhotos.length == 3){
                 sendBtn.disabled = false;
-                downloadBtn.disabled = false;
+                // downloadBtn.disabled = false;
             } else {
                 sendBtn.disabled = true;
                 // downloadBtn.disabled = true;
@@ -223,6 +223,10 @@
             console.log(selectedPhotos.length);
             if (selectedPhotos.length != 3) {
                 Swal.fire("Error", "You need to select 3 shots.", "error");
+                return;
+            }
+
+            if (clickCount != requiredClicks){
                 return;
             }
 
