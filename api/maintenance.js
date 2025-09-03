@@ -3,6 +3,7 @@ export default function handler(req, res) {
     res.writeHead(302, { Location: "/maintenance.html" });
     res.end();
   } else {
+
     res.writeHead(200);
     res.end();
   }

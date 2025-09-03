@@ -1,10 +1,9 @@
 {
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/((?!maintenance\\.html).*)",
-      "destination": "api/redirect",
+      "source": "/((?!maintenance\\.html)(?!api/redirect).*)",
+      "destination": "/api/redirect",
       "permanent": false
     }
   ]
 }
-
