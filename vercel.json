@@ -2,8 +2,9 @@
   "redirects": [
     {
       "source": "/((?!maintenance\\.html).*)",
-      "destination": "/api/redirect",
+      "destination": "api/redirect",
       "permanent": false
     }
   ]
 }
+
