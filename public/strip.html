@@ -106,8 +106,8 @@
             clickCount++;
 
             if (clickCount >= requiredClicks) {
-                downloadBtn.disabled = false; 
-                downloadBtn.style.opacity = "1";
+                sendBtn.disabled = false; 
+                sendBtn.style.opacity = "1";
             }
         });
 
@@ -171,11 +171,11 @@
             });
 
             if (selectedPhotos.length == 3){
-                sendBtn.disabled = false;
-                // downloadBtn.disabled = false;
+                // sendBtn.disabled = false;
+                downloadBtn.disabled = false;
             } else {
-                sendBtn.disabled = true;
-                // downloadBtn.disabled = true;
+                // sendBtn.disabled = true;
+                downloadBtn.disabled = true;
             }
 
             console.log("Selected: " + selectedPhotos.length);
