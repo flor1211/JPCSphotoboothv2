@@ -179,6 +179,15 @@
             });
             video.srcObject = stream;
 
+            const device = (await navigator.mediaDevices.enumerateDevices())
+                    .find(d => d.deviceId === deviceId);
+
+                if (device && /(front|user)/i.test(device.label)) {
+                    video.classList.add("mirror");
+                } else {
+                    video.classList.remove("mirror");
+                }
+
             captureBtn.disabled = false;
             resetBtn.disabled = false;
             toggleCamBtn.innerHTML = '<i class="bi bi-camera-video"></i>';
@@ -261,8 +270,20 @@
             const ctx = canvas.getContext("2d");
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+            // If front camera (mirrored preview)
+            if (video.classList.contains("mirror")) {
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform for next time
+            } else {
+                // Normal (rear camera)
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            }
+
+            
             const dataUrl = canvas.toDataURL("image/png"); 
             const blob = dataURLtoBlob(dataUrl);
             const objectUrl = URL.createObjectURL(blob);

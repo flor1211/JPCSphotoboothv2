@@ -58,6 +58,14 @@ video, canvas {
   object-position: center;
 }
 
+.mirror {
+  transform: scaleX(-1);
+}
+
+video.mirror {
+  transform: scaleX(-1);
+}
+
 
 .overlay {
   position: absolute;
