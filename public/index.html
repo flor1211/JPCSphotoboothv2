@@ -17,10 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
     <!-- <script src="https://unpkg.com/idb@7/build/iife/index-min.js"></script> -->
 
-
-    <script>
-        document.write('<style> .container{display:none;}</style>');
-    </script>
     <script src="auth.js"></script>
 
 </head>
@@ -65,8 +61,8 @@
                 <div class="slot"><span>2</span></div>
                 <div class="slot"><span>3</span></div>
                 <div class="slot"><span>4</span></div>
-                <!-- <div class="slot"><span>5</span></div>
-                <div class="slot"><span>6</span></div> -->
+                <div class="slot"><span>5</span></div>
+                <!-- <div class="slot"><span>6</span></div> -->
             </div>
             <div style="display: flex; align-items: center; justify-content: space-around; padding: 10px;">
                 <button id="nextBtn" disabled>Next</button>
@@ -331,7 +327,7 @@
 
         // Next button
         nextBtn.onclick = async () => {
-            if (photoIndex < 6) return;
+            if (photoIndex < slots.length) return;
 
             const db = await idb.openDB("photoboothDB", 1, {
                 upgrade(db) {

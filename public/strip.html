@@ -17,9 +17,6 @@
     <!-- <script src="https://unpkg.com/idb@7/build/iife/index-min.js"></script> -->
 
 
-    <script>
-        document.write('<style>.container{display:none;}</style>');
-    </script>
     
     <script src="auth.js"></script>
 
@@ -40,8 +37,8 @@
                 <div class="slot-select"><span>2</span></div>
                 <div class="slot-select"><span>3</span></div>
                 <div class="slot-select"><span>4</span></div>
-                <!-- <div class="slot-select"><span>5</span></div>
-                <div class="slot-select"><span>6</span></div> -->
+                <div class="slot-select"><span>5</span></div>
+                <!-- <div class="slot-select"><span>6</span></div> -->
             </div>
             
         </div>
@@ -255,23 +252,39 @@
 
 
             // Export
-            const { value: filename } = await Swal.fire({
+            const { value: formValues } = await Swal.fire({
                 title: "Save as",
-                input: "text",
-                inputPlaceholder: "Full Name",
+                html: `
+                        <input id="swal-name" class="swal2-input" placeholder="Full Name">
+                        <label style="display:flex;align-items:center; justify-content: center; gap:8px;margin-top:20px;">
+                            <input id="swal-checkbox" type="checkbox">
+                            I agree to upload this to JPCS Facebook page.
+                        </label>
+                    `,
                 showCancelButton: true,
-                confirmButtonText: "Send",
+                confirmButtonText: "Save",
                 cancelButtonText: "Cancel",
-                inputValidator: (value) => {
-                    if (!value) {
-                        return "Please enter a valid name!";
+                preConfirm: () => {
+                    const name = document.getElementById("swal-name").value;
+                    const agreed = document.getElementById("swal-checkbox").checked;
+
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!name) {
+                        Swal.showValidationMessage("Please enter a valid name!");
                     }
+                    return { name, agreed };
                 }
             });
 
-            if (filename) {
+            if (formValues) {
+
+                let fileName = formValues.name.trim();
+                if (formValues.agreed){
+                    fileName += " [POST]";
+                }
+
                 const link = document.createElement("a");
-                link.download = filename + ".png";
+                link.download = fileName + ".png";
                 link.href = canvas.toDataURL("image/png");
                 link.click();
 
@@ -392,6 +405,7 @@
                     });
 
                     console.log("Sending to ", formValues.email);
+                    
 
                     const response = await fetch("/api/sendEmail", {
                         method: "POST",

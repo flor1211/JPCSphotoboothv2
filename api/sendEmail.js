@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         await transporter.sendMail({
             from: `"JPCS Photobooth" <${process.env.SMTP_USER}>` ,
             to: email,
-            subject: "JPCS Photobooth - Orientation 2025!",
+            subject: "JPCS Photobooth - Pinoy Big Spartan: The House of Innovators (CICS Edition)",
             // text: `Hi ${name}, here is your photostrip! Thank you for using JPCS Photobooth.`,
             html: `<div style="font-family: Arial, sans-serif; line-height:1.6; padding:20px;">
                     <div style="max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
                         <p style="font-size:13px; color:#888; text-align:center; margin-top:20px;">
                         — JPCS Photobooth Team (flor & juls)
-                        <br/>Orientation 2025 ✨
+                        <br/>Pinoy Big Spartan: The House of Innovators (CICS Edition) ✨
                         </p>
                         
 
