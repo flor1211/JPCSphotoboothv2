@@ -15,7 +15,7 @@
     <!-- IDB CDN -->
     <script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
     <!-- <script src="https://unpkg.com/idb@7/build/iife/index-min.js"></script> -->
-     
+
     <script>
         document.write('<style> .container{display:none;}</style>');
     </script>
@@ -74,7 +74,7 @@
         <div class="action-container" style="margin-left: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px">
             <h3>Action</h3>
             <button id="downloadBtn" class="downloadBtn" style="width: 100%;" disabled><i class="bi bi-file-earmark-arrow-down-fill"></i> Download Strip</button>
-            <button id="sendBtn" style="width: 100%;" disabled><i class="bi bi-envelope-paper-fill"></i> Send to Email</button>
+            <button id="sendBtn" style="width: 100%;" disabled><i class="bi bi-envelope-paper-fill" disabled></i> Send to Email</button>
             <button id="restartBtn" style="width: 100%; background-color: rgb(255, 41, 41)" >Restart</button>
             <!-- <button id="backBtn" style="width: 100%; background-color: gray;">Back</button> -->
         </div>
@@ -96,7 +96,21 @@
         const restartBtn = document.getElementById("restartBtn");
         const backBtn = document.getElementById("backBtn");
 
+        const selectTitle = document.querySelector("h2");
+        let clickCount = 0;
+        const requiredClicks = 6;
+        
         let selectedPhotos = [];
+
+        selectTitle.addEventListener("click", () => {
+            clickCount++;
+
+            if (clickCount >= requiredClicks) {
+            downloadBtn.disabled = false; 
+            downloadBtn.style.opacity = "1";
+            }
+        });
+
 
         // base64 to blob
         function base64ToBlobUrl(base64) {
@@ -161,7 +175,7 @@
                 downloadBtn.disabled = false;
             } else {
                 sendBtn.disabled = true;
-                downloadBtn.disabled = true;
+                // downloadBtn.disabled = true;
             }
 
             console.log("Selected: " + selectedPhotos.length);
