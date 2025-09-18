@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JPCS Photobooth v2</title>
-    <link rel="stylesheet" href="style.css">
+    <title>JPCS Photobooth v3</title>
+    
+    <div id="style-placeholder"></div>
+    <script>
+      fetch("style.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("style-placeholder").outerHTML = data;
+        });
+    </script>
 
     <!-- SweetAlert CDN-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -25,13 +33,14 @@
 </head>
 <body>
   <div class="container" id="container">
-    <h1>Pinoy Big Spartan Photobooth</h1>
+    <h1>Debugging the Future Photobooth</h1>
 
     <div class="final-row">
 
         <div>
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
                 <h2>Select 3 shots</h2>
+                <h2 id="secret">  *</h2>
             </div>
 
             <div class="preview-select">
@@ -75,7 +84,7 @@
         <div class="action-container" style="margin-left: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px">
             <h3>Action</h3>
             <button id="downloadBtn" class="downloadBtn" style="width: 100%;" disabled><i class="bi bi-file-earmark-arrow-down-fill"></i> Download Strip</button>
-            <button id="sendBtn" style="width: 100%;" disabled><i class="bi bi-envelope-paper-fill" disabled></i> Send to Email</button>
+            <button id="sendBtn" style="width: 100%; display: none" disabled><i class="bi bi-envelope-paper-fill"></i> Send to Email</button>
             <button id="restartBtn" style="width: 100%; background-color: rgb(255, 41, 41)" >Restart</button>
             <!-- <button id="backBtn" style="width: 100%; background-color: gray;">Back</button> -->
         </div>
@@ -97,18 +106,19 @@
         const restartBtn = document.getElementById("restartBtn");
         const backBtn = document.getElementById("backBtn");
 
-        const selectTitle = document.querySelector("h2");
+        const secret = document.getElementById("secret");
         let clickCount = 0;
         const requiredClicks = 6;
         
         let selectedPhotos = [];
 
         selectTitle.addEventListener("click", () => {
-            //clickCount++;
+            clickCount++;
 
             if (clickCount >= requiredClicks) {
-                sendBtn.disabled = false; 
+                sendBtn.disabled = fasle; 
                 sendBtn.style.opacity = "1";
+                sendBtn.display = "block"
             }
         });
 
@@ -266,6 +276,7 @@
             await overlay.decode();
             ctx.drawImage(overlay, 0, 0, canvasWidth, canvasHeight);
 
+            const dataUrl = canvas.toDataURL("image/png");
 
             // Export
             const { value: formValues } = await Swal.fire({
@@ -284,10 +295,10 @@
                     const name = document.getElementById("swal-name").value;
                     const agreed = document.getElementById("swal-checkbox").checked;
 
-                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!name) {
-                        Swal.showValidationMessage("Please enter a valid name!");
-                    }
+                    // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    // if (!name) {
+                    //     Swal.showValidationMessage("Please enter a valid name!");
+                    // }
                     return { name, agreed };
                 }
             });
@@ -299,10 +310,39 @@
                     fileName += " [POST]";
                 }
 
+                //
+                Swal.fire({
+                    title: "Sending...",
+                    text: "Please wait for a moment!",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const response = await fetch("/api/sendEmail", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name: formValues.name,
+                        image: dataUrl
+                    }),
+                });
+
+                if (response.ok) {
+                    Swal.fire("Success", "Your photostrip is ready to save!", "success");
+                } else {
+                    Swal.fire("Error", "An error occured", "error");
+                }
+
+
+
                 const link = document.createElement("a");
                 link.download = fileName + ".png";
                 link.href = canvas.toDataURL("image/png");
                 link.click();
+
+
 
                 Swal.fire("Success", "Your photobooth strip has been saved.", "success");
             }

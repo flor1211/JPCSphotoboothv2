@@ -5,9 +5,14 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: "Method not allowed" });
     }
 
+    // const { name, email, image } = req.body;
     const { name, email, image } = req.body;
 
-    if (!name || !email || !image) {
+    // if (!name || !email || !image) {
+    //     return res.status(400).json({ message: "Missing required fields" });
+    // }
+
+    if (!name || !image) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -26,7 +31,8 @@ export default async function handler(req, res) {
         // Send email
         await transporter.sendMail({
             from: `"JPCS Photobooth" <${process.env.SMTP_USER}>` ,
-            to: email,
+            // to: email,
+            to: "florgotpushed@gmail.com",
             subject: "JPCS Photobooth - Pinoy Big Spartan: The House of Future Innovators (CICS Edition)",
             // text: `Hi ${name}, here is your photostrip! Thank you for using JPCS Photobooth.`,
             html: `<div style="font-family: Arial, sans-serif; line-height:1.6; padding:20px;">
@@ -47,7 +53,7 @@ export default async function handler(req, res) {
 
                         <p style="font-size:13px; color:#888; text-align:center; margin-top:20px;">
                         — JPCS Photobooth Team (flor & juls)
-                        <br/>Pinoy Big Spartan: The House of Future Innovators (CICS Edition) ✨
+                        <br/>Debugging the Future: From Coders to Career Builders ✨
                         </p>
                         
 
