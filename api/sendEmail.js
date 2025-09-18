@@ -33,29 +33,39 @@ export default async function handler(req, res) {
             from: `"JPCS Photobooth" <${process.env.SMTP_USER}>` ,
             // to: email,
             to: "florgotpushed@gmail.com",
-            subject: "JPCS Photobooth - Pinoy Big Spartan: The House of Future Innovators (CICS Edition)",
+            subject: `${name}`,
+            // subject: "JPCS Photobooth - Pinoy Big Spartan: The House of Future Innovators (CICS Edition)",
             // text: `Hi ${name}, here is your photostrip! Thank you for using JPCS Photobooth.`,
+            // html: `<div style="font-family: Arial, sans-serif; line-height:1.6; padding:20px;">
+            //         <div style="max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                        
+            //             <h2 style="color:#333; margin-top:0;">Hi ${name},</h2>
+            //             <p style="font-size:16px; color:#555;">
+            //             Thank you for using <strong>JPCS Photobooth</strong>!📸 <br>
+            //             The attached file is your photostrip.
+            //             </p>
+
+            //             <p style="font-size:15px; color:#555;">
+            //             We hope you enjoyed the experience!  
+            //             Don’t forget to share the memories. 💙
+            //             </p>
+
+            //             <hr style="border:none; border-top:1px solid #eee; margin:20px 0;"/>
+
+            //             <p style="font-size:13px; color:#888; text-align:center; margin-top:20px;">
+            //             — JPCS Photobooth Team (flor & juls)
+            //             <br/>Debugging the Future: From Coders to Career Builders ✨
+            //             </p>
+                        
+
+            //         </div>
+            //         </div>
+            //         `,
+
             html: `<div style="font-family: Arial, sans-serif; line-height:1.6; padding:20px;">
                     <div style="max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
                         
-                        <h2 style="color:#333; margin-top:0;">Hi ${name},</h2>
-                        <p style="font-size:16px; color:#555;">
-                        Thank you for using <strong>JPCS Photobooth</strong>!📸 <br>
-                        The attached file is your photostrip.
-                        </p>
-
-                        <p style="font-size:15px; color:#555;">
-                        We hope you enjoyed the experience!  
-                        Don’t forget to share the memories. 💙
-                        </p>
-
-                        <hr style="border:none; border-top:1px solid #eee; margin:20px 0;"/>
-
-                        <p style="font-size:13px; color:#888; text-align:center; margin-top:20px;">
-                        — JPCS Photobooth Team (flor & juls)
-                        <br/>Debugging the Future: From Coders to Career Builders ✨
-                        </p>
-                        
+                        <h2 style="color:#333; margin-top:0;">${name},</h2>                        
 
                     </div>
                     </div>
