@@ -7,7 +7,7 @@
 body {
     font-family: Arial, sans-serif;
     background: #e8d5eb;
-    color: #440064;
+    color: #76a1da;
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -21,7 +21,7 @@ body {
 }
 
 h1 {
-  color: #6e008f;
+  color: #14005a;
   margin-bottom: 20px;
 }
 
@@ -45,7 +45,7 @@ h1 {
     width: 650px;
     height: 450px;
     background: black;
-    border: 3px solid #7a00c1;
+    border: 3px solid #0003c1;
     border-radius: 10px;
     overflow: hidden;
 
@@ -101,12 +101,12 @@ video.mirror {
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background-color: #5c00a7;
+  background-color: #0035a7;
   color: white;
 }
 
 .cam-controls button:hover {
-  background-color: #6f0091;
+  background-color: #000a91;
 }
 
 
@@ -127,7 +127,7 @@ button {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    background-color: #6a00a7;
+    background-color: #0003a7;
     color: white;
 }
 
@@ -140,7 +140,7 @@ select {
 }
 
 button:hover {
-  background-color: #680091;
+  background-color: #1b0091;
 }
 
 button:disabled {
